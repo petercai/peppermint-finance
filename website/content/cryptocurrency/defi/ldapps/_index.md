@@ -1,5 +1,5 @@
 ```
-usage: llama [-l N]
+usage: ldapps [-l N]
              [-s {tvl,symbol,category,chains,change_1h,change_1d,change_7d,tvl}]
              [--descend] [--desc] [--export {csv,json,xlsx}] [-h]
 ```

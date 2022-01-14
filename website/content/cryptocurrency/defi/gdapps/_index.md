@@ -1,13 +1,13 @@
 ```
-usage: tvl [-l N] [--export {csv,json,xlsx}] [-h]
+usage: gdapps [-l N] [--export {csv,json,xlsx}] [-h]
 ```
 
-Displays historical values of the total sum of TVLs from all listed protocols.
+Display top dApps (in terms of TVL) grouped by chain.
 [Source: https://docs.llama.fi/api]
 
 ```
 optional arguments:
-  -l N, --limit N       display N records (default: 10)
+  -l N, --limit N       Number of top dApps to display(default: 40)
   --export {csv,json,xlsx}
                         Export dataframe data to csv,json,xlsx file (default:
                         )
