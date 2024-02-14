@@ -23,15 +23,17 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.io as pio
+from plotly.subplots import make_subplots
+
 from openbb_charting.core.backend import PLOTLYJS_PATH, create_backend, get_backend
 from openbb_charting.core.chart_style import ChartStyle
 from openbb_charting.core.config.openbb_styles import (
     PLT_TBL_ROW_COLORS,
 )
-from openbb_core.app.model.charts.charting_settings import ChartingSettings
-from plotly.subplots import make_subplots
 
 if TYPE_CHECKING:
+    from openbb_core.app.model.charts.charting_settings import ChartingSettings
+
     try:  # noqa: SIM105
         # pylint: disable=W0611 # noqa: F401
         from darts import TimeSeries
@@ -86,7 +88,9 @@ class OpenBBFigure(go.Figure):
         if fig:
             self.__dict__ = fig.__dict__
 
-        self._charting_settings = kwargs.pop("charting_settings", ChartingSettings())
+        self._charting_settings: Optional["ChartingSettings"] = kwargs.pop(
+            "charting_settings", None
+        )
         self._has_secondary_y = kwargs.pop("has_secondary_y", False)
         self._subplots_kwargs: Dict[str, Any] = kwargs.pop("subplots_kwargs", {})
         self._multi_rows = kwargs.pop("multi_rows", False)
@@ -102,10 +106,12 @@ class OpenBBFigure(go.Figure):
 
         if kwargs.pop("create_backend", False):
             create_backend(self._charting_settings)
-            get_backend().start(debug=self._charting_settings.debug_mode)
+            get_backend().start(
+                debug=getattr(self._charting_settings, "debug_mode", False)
+            )
         self._theme = ChartStyle(
-            self._charting_settings.chart_style,
-            self._charting_settings.user_styles_directory,
+            getattr(self._charting_settings, "plt_style", ""),
+            getattr(self._charting_settings, "user_styles_directory", None),
         )
 
         if xaxis := kwargs.pop("xaxis", None):
@@ -232,7 +238,8 @@ class OpenBBFigure(go.Figure):
         secondary_y: bool = False,
         **kwargs,
     ):
-        """Add a trend line to the figure.
+        """
+        Add a trend line to the figure.
 
         Parameters
         ----------
@@ -245,7 +252,6 @@ class OpenBBFigure(go.Figure):
         secondary_y : `bool`, optional
             Whether to plot on secondary y axis, by default None
         """
-
         try:
             for column, color in zip(
                 ["OC_High_trend", "OC_Low_trend"],
@@ -285,7 +291,8 @@ class OpenBBFigure(go.Figure):
         row: int = 1,
         col: int = 1,
     ) -> None:
-        """Add a histogram with a curve and rug plot if desired.
+        """
+        Add a histogram with a curve and rug plot if desired.
 
         Parameters
         ----------
@@ -312,7 +319,6 @@ class OpenBBFigure(go.Figure):
         col : `int`, optional
             Column of the subplot, by default 1
         """
-
         from scipy import stats  # pylint: disable=import-outside-toplevel
 
         callback = stats.norm if curve == "normal" else stats.gaussian_kde
@@ -554,7 +560,8 @@ class OpenBBFigure(go.Figure):
         legendrank: Optional[int] = None,
         **kwargs,
     ) -> None:
-        """Add a horizontal line with a legend label.
+        """
+        Add a horizontal line with a legend label.
 
         Parameters
         ----------
@@ -567,7 +574,6 @@ class OpenBBFigure(go.Figure):
         legendrank : `int`, optional
             Legend rank, by default None (e.g. 1 is above 2)
         """
-
         if line is None:
             line = {}
 
@@ -592,7 +598,8 @@ class OpenBBFigure(go.Figure):
         legendrank: Optional[int] = None,
         **kwargs,
     ) -> None:
-        """Add a vertical line with a legend label.
+        """
+        Add a vertical line with a legend label.
 
         Parameters
         ----------
@@ -605,7 +612,6 @@ class OpenBBFigure(go.Figure):
         legendrank : `int`, optional
             Legend rank, by default None (e.g. 1 is above 2)
         """
-
         if line is None:
             line = {}
 
@@ -661,7 +667,8 @@ class OpenBBFigure(go.Figure):
     def chart_volume_scaling(
         df_volume: pd.DataFrame, volume_ticks_x: int = 7
     ) -> Dict[str, list]:
-        """Takes df_volume and returns volume_ticks, tickvals for chart volume scaling
+        """
+        Takes df_volume and returns volume_ticks, tickvals for chart volume scaling.
 
         Parameters
         ----------
@@ -709,7 +716,8 @@ class OpenBBFigure(go.Figure):
         col: Optional[int] = 1,
         volume_ticks_x: int = 7,
     ) -> None:
-        """Add in-chart volume to a subplot.
+        """
+        Add in-chart volume to a subplot.
 
         Parameters
         ----------
@@ -726,7 +734,6 @@ class OpenBBFigure(go.Figure):
         volume_ticks_x : int, optional
             Number to multiply volume, by default 7
         """
-
         colors = np.where(
             df_stock.open < df_stock[close_col],
             self._theme.up_color,
@@ -838,8 +845,9 @@ class OpenBBFigure(go.Figure):
         external: bool = False,
         export_image: Optional[Union[Path, str]] = "",
         **kwargs,
-    ) -> Optional["OpenBBFigure"]:
-        """Show the figure.
+    ) -> "OpenBBFigure":
+        """
+        Show the figure.
 
         Parameters
         ----------
@@ -854,7 +862,6 @@ class OpenBBFigure(go.Figure):
         date_xaxis : `bool`, optional
             Whether to check if the xaxis is a date axis, by default True
         """
-
         self.cmd_xshift = kwargs.pop("cmd_xshift", self.cmd_xshift)
         self.bar_width = kwargs.pop("bar_width", self.bar_width)
         self._export_image = export_image
@@ -899,7 +906,7 @@ class OpenBBFigure(go.Figure):
         if external or self._exported:
             return self  # type: ignore
 
-        if self._charting_settings.headless:
+        if getattr(self._charting_settings, "headless", False):
             return self.to_json()
 
         kwargs.update(config=dict(scrollZoom=True, displaylogo=False))
@@ -916,7 +923,7 @@ class OpenBBFigure(go.Figure):
                 # If the backend fails, we just show the figure normally
                 # This is a very rare case, but it's better to have a fallback
 
-                if self._charting_settings.debug_mode:
+                if getattr(self._charting_settings, "debug_mode", False):
                     warn(f"Failed to show figure with backend: {e}")
                 warn(
                     f"Failed to show figure with backend: {e}"
@@ -1232,8 +1239,7 @@ class OpenBBFigure(go.Figure):
         self, ndarray: bool = False, np_nan: bool = False
     ) -> Dict[str, Any]:
         """
-        Convert figure to a JSON representation as a Python dict
-
+        Convert figure to a JSON representation as a Python dict.
 
         Parameters
         ----------
@@ -1512,7 +1518,6 @@ class OpenBBFigure(go.Figure):
 
     def add_logscale_menus(self, yaxis: str = "yaxis") -> None:
         """Set the menus for the figure."""
-
         self._added_logscale = True
         bg_color = "#000000" if self._theme.mapbox_style == "dark" else "#FFFFFF"  # type: ignore
         font_color = "#FFFFFF" if self._theme.mapbox_style == "dark" else "#000000"  # type: ignore

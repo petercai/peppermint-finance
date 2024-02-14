@@ -11,15 +11,19 @@ import warnings
 from multiprocessing import current_process
 from pathlib import Path
 from threading import Thread
-from typing import Any, Dict, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 import aiohttp
 import pandas as pd
 import plotly.graph_objects as go
-from openbb_core.app.model.charts.charting_settings import ChartingSettings
 from openbb_core.env import Env
 from packaging import version
 from reportlab.graphics import renderPDF
+from svglib.svglib import svg2rlg
+
+if TYPE_CHECKING:
+    from openbb_core.app.model.charts.charting_settings import ChartingSettings
+
 
 # pylint: disable=C0415
 try:
@@ -33,8 +37,6 @@ except ImportError as e:
     class PyWry(DummyBackend):  # type: ignore
         """Dummy backend for charts."""
 
-
-from svglib.svglib import svg2rlg
 
 try:
     from IPython import get_ipython
@@ -67,7 +69,7 @@ class Backend(PyWry):
 
     def __init__(
         self,
-        charting_settings: ChartingSettings,
+        charting_settings: "ChartingSettings",
         daemon: bool = True,
         max_retries: int = 30,
         proc_name: str = "OpenBB Terminal",
@@ -504,7 +506,10 @@ if not PLOTLYJS_PATH.exists() and not JUPYTER_NOTEBOOK:
     Thread(target=asyncio.run, args=(download_plotly_js(),)).start()
 
 
-def create_backend(charting_settings: Optional[ChartingSettings] = None):
+def create_backend(charting_settings: Optional["ChartingSettings"] = None):
+    # # pylint: disable=import-outside-toplevel
+    from openbb_core.app.model.charts.charting_settings import ChartingSettings
+
     charting_settings = charting_settings or ChartingSettings()
     global BACKEND  # pylint: disable=W0603 # noqa
     if BACKEND is None:

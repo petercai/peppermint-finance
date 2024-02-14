@@ -6,21 +6,24 @@ import inspect
 import sys
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Type, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Type, Union
 
 import pandas as pd
+
 from openbb_charting.core.chart_style import ChartStyle
 from openbb_charting.core.openbb_figure import OpenBBFigure
-from openbb_core.app.model.charts.charting_settings import ChartingSettings
 
 from .base import PltTA
 from .data_classes import ChartIndicators
 from .ta_helpers import check_columns
 
-OPENBB_CHARTING_EXTENSION_PATH = Path(__file__).parent.parent.parent
-CHARTING_INSTALL_PATH = OPENBB_CHARTING_EXTENSION_PATH.parent
+charting_EXTENSION_PATH = Path(__file__).parent.parent.parent
+CHARTING_INSTALL_PATH = charting_EXTENSION_PATH.parent
 PLUGINS_PATH = Path(__file__).parent / "plugins"
 PLOTLY_TA: Optional["PlotlyTA"] = None
+
+if TYPE_CHECKING:
+    from openbb_core.app.model.charts.charting_settings import ChartingSettings
 
 
 class PlotlyTA(PltTA):
@@ -60,7 +63,7 @@ class PlotlyTA(PltTA):
     Examples
     --------
     >>> from openbb import obb
-    >>> from openbb_charting.core.plotly_ta.ta_class import PlotlyTA
+    >>> from charting.core.plotly_ta.ta_class import PlotlyTA
 
     >>> df = obb.equity.price.historical("SPY")
     >>> indicators = dict(
@@ -90,13 +93,18 @@ class PlotlyTA(PltTA):
     has_volume: bool = True
     show_volume: bool = True
     prepost: bool = False
-    charting_settings: ChartingSettings = ChartingSettings()
+    charting_settings: Optional["ChartingSettings"] = None
     theme: Optional[ChartStyle] = None
 
     def __new__(cls, *args, **kwargs):
         """Method is overridden to create a singleton instance of the class."""
         cls.charting_settings = kwargs.pop("charting_settings", cls.charting_settings)
-        cls.theme = cls.setup_theme(cls.charting_settings)
+        cls.theme = cls.setup_theme(
+            chart_style=getattr(cls.charting_settings, "chart_style", ""),
+            user_styles_directory=getattr(
+                cls.charting_settings, "user_styles_directory", ""
+            ),
+        )
         cls.inchart_colors = cls.theme.get_colors()
 
         global PLOTLY_TA  # pylint: disable=global-statement # noqa
@@ -105,14 +113,14 @@ class PlotlyTA(PltTA):
             # We set the global variable to the instance of the class so that
             # the plugins are only loaded once
             PLOTLY_TA = super().__new__(cls)
-            PLOTLY_TA._locate_plugins(cls.charting_settings.debug_mode)
+            PLOTLY_TA._locate_plugins(
+                getattr(cls.charting_settings, "debug_mode", False)
+            )
             PLOTLY_TA.add_plugins(PLOTLY_TA.plugins)
 
         return PLOTLY_TA
 
-    def __init__(
-        self, *args, charting_settings: Optional[ChartingSettings] = None, **kwargs
-    ):  # pylint: disable=unused-argument
+    def __init__(self, *args, **kwargs):
         """Method is overridden to do nothing, except to clear the internal data structures."""
         if not args and not kwargs:
             self._clear_data()
@@ -121,12 +129,9 @@ class PlotlyTA(PltTA):
             super().__init__(*args, **kwargs)
 
     @staticmethod
-    def setup_theme(charting_settings: ChartingSettings) -> ChartStyle:
+    def setup_theme(chart_style, user_styles_directory) -> ChartStyle:
         """Setup theme for charting."""
-        return ChartStyle(
-            charting_settings.chart_style,
-            charting_settings.user_styles_directory,
-        )
+        return ChartStyle(chart_style, user_styles_directory)
 
     @property
     def ma_mode(self) -> List[str]:
