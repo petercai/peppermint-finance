@@ -5,7 +5,7 @@ interactions:
       Accept:
       - '*/*'
       Accept-Encoding:
-      - gzip, deflate, br
+      - gzip, deflate
       Connection:
       - keep-alive
     method: GET
@@ -20163,12 +20163,10 @@ interactions:
         Online PC Ins Co Ltd.|S|OTC|735652|842252||0|999.99||-12.66|-106600|2021-07-15\n20210715|ZZZOF|Zinc
         One Resources, Inc. Commo|S|OTC|73|95||7580|1.00||-23.16|-22|2021-07-15\n"
     headers:
-      Accept-Ranges:
-      - bytes
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 823546d23d541c5b-DEL
+      - 89c858987a201372-YVR
       Connection:
       - keep-alive
       Content-Length:
@@ -20176,27 +20174,25 @@ interactions:
       Content-Type:
       - binary/octet-stream
       Date:
-      - Thu, 09 Nov 2023 10:12:19 GMT
-      ETag:
-      - '"7510b6a0add4dd310d1ed97a864835c1"'
-      Last-Modified:
-      - Thu, 27 Jul 2023 01:20:39 GMT
+      - Mon, 01 Jul 2024 18:09:16 GMT
       Server:
       - cloudflare
       Set-Cookie:
-      - __cf_bm=qXrSXYJ7.hRJhritpdlIfPVFR4KxlrZizFlVYhxb7ew-1699524739-0-AR5Qg8sNFhCbf6MTcyJSH4MELYsXvPut0aJ4mCbKS17GfzZVfuP7MgGs5U6+cxOzEwViMgFs0ds9m58L3g8FvkE=;
-        path=/; expires=Thu, 09-Nov-23 10:42:19 GMT; domain=.cdn.finra.org; HttpOnly;
+      - __cf_bm=mxQBMKNARTBuHddDyLTy.62ZLgJM6rTXVic8_U5M__0-1719857356-1.0.1.1-a9Lqschi0DwM2OH3bsn3vD77ORxO7Noi77dBb.OmpxK5sWj6nkWDvaS6Xh84HecHuKrKXP8koPMtHiOVO14GeQ;
+        path=/; expires=Mon, 01-Jul-24 18:39:16 GMT; domain=.cdn.finra.org; HttpOnly;
         Secure; SameSite=None
-      Vary:
-      - Accept-Encoding
-      Via:
-      - 1.1 8fd185eb2039b450462dd963bfe2f48c.cloudfront.net (CloudFront)
-      X-Amz-Cf-Id:
-      - uM4Luncc2QwUJnIVvRopI1j4sJj6NWa5nJ6zaiyaRJ3uvk4K-D7W7Q==
-      X-Amz-Cf-Pop:
-      - DEL54-P7
-      X-Cache:
-      - RefreshHit from cloudfront
+      accept-ranges:
+      - bytes
+      etag:
+      - '"7510b6a0add4dd310d1ed97a864835c1"'
+      last-modified:
+      - Thu, 27 Jul 2023 01:20:39 GMT
+      via:
+      - 1.1 68912b17b5637bcad753c663791ff7a6.cloudfront.net (CloudFront)
+      x-amz-cf-id:
+      - WMI9v91UlDHzhRi627FfpGIEalR_-ZCoEah6EZL5GKvupAx38FGWFA==
+      x-amz-cf-pop:
+      - YVR52-P1
       x-amz-meta-x-amz-meta-category:
       - otcmarket
       x-amz-meta-x-amz-meta-date:
@@ -20205,6 +20201,8 @@ interactions:
       - biweekly
       x-amz-server-side-encryption:
       - AES256
+      x-cache:
+      - Miss from cloudfront
     status:
       code: 200
       message: OK
@@ -20214,7 +20212,7 @@ interactions:
       Accept:
       - '*/*'
       Accept-Encoding:
-      - gzip, deflate, br
+      - gzip, deflate
       Connection:
       - keep-alive
     method: GET
@@ -40363,12 +40361,10 @@ interactions:
         Online P & C Insurance|S|OTC|100|0||19|5.26||100.00|100|2021-07-30\n20210730|ZZZOF|Zinc
         One Resources, Inc. Commo|S|OTC|63|73||1296|1.00||-13.70|-10|2021-07-30\n"
     headers:
-      Accept-Ranges:
-      - bytes
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 823546daf89b1bb6-DEL
+      - 89c858a2e9af844d-YVR
       Connection:
       - keep-alive
       Content-Length:
@@ -40376,27 +40372,25 @@ interactions:
       Content-Type:
       - binary/octet-stream
       Date:
-      - Thu, 09 Nov 2023 10:12:21 GMT
-      ETag:
-      - '"57cd0893894d8d589bf7bd6bfacfb22b"'
-      Last-Modified:
-      - Thu, 27 Jul 2023 01:20:35 GMT
+      - Mon, 01 Jul 2024 18:09:17 GMT
       Server:
       - cloudflare
       Set-Cookie:
-      - __cf_bm=.qrtFJ2xl3kp.qUBuonmVHVUO3KDQ3nvCIFfOx52cv8-1699524741-0-ASWHEhL4eldVAFL8u/LLITXKfsXwJYwr7NkvAoWUipb2H/2mRBoYLYMKGoxw8icGGUaS+tdiA8JFIErpbUyqW/c=;
-        path=/; expires=Thu, 09-Nov-23 10:42:21 GMT; domain=.cdn.finra.org; HttpOnly;
+      - __cf_bm=1fHTWqjCrkM.YOAfty_2hdgPx6zQhsuiOV8G0dGM1iA-1719857357-1.0.1.1-39k1RhZdNuWi0XAiUFLtLlKF2zFcXI6qkFKsQhaNwBbThiIDv9mXCQEkJLNvQ1xjkYX52QLr5yc1B2yXtzbGzg;
+        path=/; expires=Mon, 01-Jul-24 18:39:17 GMT; domain=.cdn.finra.org; HttpOnly;
         Secure; SameSite=None
-      Vary:
-      - Accept-Encoding
-      Via:
-      - 1.1 086c4491dfd784af394f7b2b6057bb70.cloudfront.net (CloudFront)
-      X-Amz-Cf-Id:
-      - 81sD-3dFGH_aIcdx3vG2K0xSVAT2wN52cU_AHl0JYfyn-no5SjRsZQ==
-      X-Amz-Cf-Pop:
-      - DEL54-P7
-      X-Cache:
-      - RefreshHit from cloudfront
+      accept-ranges:
+      - bytes
+      etag:
+      - '"57cd0893894d8d589bf7bd6bfacfb22b"'
+      last-modified:
+      - Thu, 27 Jul 2023 01:20:35 GMT
+      via:
+      - 1.1 ab46854462c3986bd1b6e6c909d2ad6e.cloudfront.net (CloudFront)
+      x-amz-cf-id:
+      - arlFDyvMeURA7g7RJVnFVPedhIByh7Wz6TVJDphimI1bgvI8f8KSaQ==
+      x-amz-cf-pop:
+      - SEA900-P5
       x-amz-meta-x-amz-meta-category:
       - otcmarket
       x-amz-meta-x-amz-meta-date:
@@ -40405,6 +40399,8 @@ interactions:
       - biweekly
       x-amz-server-side-encryption:
       - AES256
+      x-cache:
+      - Miss from cloudfront
     status:
       code: 200
       message: OK
@@ -40414,7 +40410,7 @@ interactions:
       Accept:
       - '*/*'
       Accept-Encoding:
-      - gzip, deflate, br
+      - gzip, deflate
       Connection:
       - keep-alive
     method: GET
@@ -80643,12 +80639,10 @@ interactions:
 
         '
     headers:
-      Accept-Ranges:
-      - bytes
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 823546e3ae1b8aee-DEL
+      - 89c858ad4b88840b-YVR
       Connection:
       - keep-alive
       Content-Length:
@@ -80656,27 +80650,25 @@ interactions:
       Content-Type:
       - binary/octet-stream
       Date:
-      - Thu, 09 Nov 2023 10:12:22 GMT
-      ETag:
-      - '"eee38a56e970bbfd17770650415f066c"'
-      Last-Modified:
-      - Thu, 27 Jul 2023 01:20:31 GMT
+      - Mon, 01 Jul 2024 18:09:19 GMT
       Server:
       - cloudflare
       Set-Cookie:
-      - __cf_bm=WppVzld8Vos9_OnBTydmF4tKPo1XF8B_gmWQLv9zlEA-1699524742-0-AWp9ZGpvW4ql7/n6AYzL/kzt96NqsQOHuwG3B+wHUlqPrHbly+Z/LyvzbFzAafR6aqQT7J32tisZALtwuEcInk4=;
-        path=/; expires=Thu, 09-Nov-23 10:42:22 GMT; domain=.cdn.finra.org; HttpOnly;
+      - __cf_bm=zvzXl889sHtdmqSPlDz5vRphxw6jpkKukgg32T3u2Qo-1719857359-1.0.1.1-sASIghHFal4r8uggBNWduiGYuGv8b27d9I39PsH_RBoiUXxMbh49G6srX.RqVMvn9kde3s5uUAgNbqzkz6bfhQ;
+        path=/; expires=Mon, 01-Jul-24 18:39:19 GMT; domain=.cdn.finra.org; HttpOnly;
         Secure; SameSite=None
-      Vary:
-      - Accept-Encoding
-      Via:
-      - 1.1 8fd185eb2039b450462dd963bfe2f48c.cloudfront.net (CloudFront)
-      X-Amz-Cf-Id:
-      - X37PLqY_24JY_Y6wsrWMl4Chu7rasl2rzqiJELKr0rm-KCySoJ2CJw==
-      X-Amz-Cf-Pop:
-      - DEL54-P7
-      X-Cache:
-      - RefreshHit from cloudfront
+      accept-ranges:
+      - bytes
+      etag:
+      - '"eee38a56e970bbfd17770650415f066c"'
+      last-modified:
+      - Thu, 27 Jul 2023 01:20:31 GMT
+      via:
+      - 1.1 5ffff4f34e4cc93dd42fbe9f81979bc4.cloudfront.net (CloudFront)
+      x-amz-cf-id:
+      - j2J-ITXtOkHh7jX1_1slWcxPtUgcdbkmdO808R8LmMl-8t8aiof8kw==
+      x-amz-cf-pop:
+      - SEA900-P5
       x-amz-meta-x-amz-meta-category:
       - otcmarket
       x-amz-meta-x-amz-meta-date:
@@ -80685,6 +80677,8 @@ interactions:
       - biweekly
       x-amz-server-side-encryption:
       - AES256
+      x-cache:
+      - Miss from cloudfront
     status:
       code: 200
       message: OK
@@ -80694,7 +80688,7 @@ interactions:
       Accept:
       - '*/*'
       Accept-Encoding:
-      - gzip, deflate, br
+      - gzip, deflate
       Connection:
       - keep-alive
     method: GET
@@ -100810,12 +100804,10 @@ interactions:
         Online PC Ins Co Ltd.|S|OTC|218552|486052||0|999.99||-55.04|-267500|2021-08-31\n20210831|ZZZOF|Zinc
         One Resources, Inc. Commo|S|OTC|12|53||759|1.00||-77.36|-41|2021-08-31\n"
     headers:
-      Accept-Ranges:
-      - bytes
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 823546ec6f231c49-DEL
+      - 89c858b73d772d9f-YVR
       Connection:
       - keep-alive
       Content-Length:
@@ -100823,27 +100815,25 @@ interactions:
       Content-Type:
       - binary/octet-stream
       Date:
-      - Thu, 09 Nov 2023 10:12:23 GMT
-      ETag:
-      - '"918e1424e8f994c6c80ea76d1ddac783"'
-      Last-Modified:
-      - Thu, 27 Jul 2023 01:20:26 GMT
+      - Mon, 01 Jul 2024 18:09:20 GMT
       Server:
       - cloudflare
       Set-Cookie:
-      - __cf_bm=X0G8tVStM16UOrFghGZDIsefc2MBvq02lN3bhcKdZIA-1699524743-0-AWF2c22NXD2KZJZgCu1QeszI1lw1mb7clIxfSS93xjpSJbTbjI+g7IyR/v3QtH6ZxkO4Fu8Qi6W/t/mA915nnIw=;
-        path=/; expires=Thu, 09-Nov-23 10:42:23 GMT; domain=.cdn.finra.org; HttpOnly;
+      - __cf_bm=RJawB6EGviA2Vda3seU6m7no4XwivAj5wT8mv_4jL9A-1719857360-1.0.1.1-U_0ABVScaGrHPrZyqnrH8C6NmmnJ1Is2YUj6qlM307bawB1hN4wk26o5KoZtT2_V2PdDKV.Eb9DSiQoIpLbx_g;
+        path=/; expires=Mon, 01-Jul-24 18:39:20 GMT; domain=.cdn.finra.org; HttpOnly;
         Secure; SameSite=None
-      Vary:
-      - Accept-Encoding
-      Via:
-      - 1.1 8fd185eb2039b450462dd963bfe2f48c.cloudfront.net (CloudFront)
-      X-Amz-Cf-Id:
-      - 7Fjs-9qMOW7YcaUvVAsN2N5CFgGLoFUtPpS16vgfh0pLSf_yQJacfQ==
-      X-Amz-Cf-Pop:
-      - DEL54-P7
-      X-Cache:
-      - RefreshHit from cloudfront
+      accept-ranges:
+      - bytes
+      etag:
+      - '"918e1424e8f994c6c80ea76d1ddac783"'
+      last-modified:
+      - Thu, 27 Jul 2023 01:20:26 GMT
+      via:
+      - 1.1 ab46854462c3986bd1b6e6c909d2ad6e.cloudfront.net (CloudFront)
+      x-amz-cf-id:
+      - C74epMoaC2t8OJ0TNTBEaV8dk38VIDOYPaBLTUFf4BDHPgWzSoVP5w==
+      x-amz-cf-pop:
+      - SEA900-P5
       x-amz-meta-x-amz-meta-category:
       - otcmarket
       x-amz-meta-x-amz-meta-date:
@@ -100852,6 +100842,8 @@ interactions:
       - biweekly
       x-amz-server-side-encryption:
       - AES256
+      x-cache:
+      - Miss from cloudfront
     status:
       code: 200
       message: OK
@@ -100861,7 +100853,7 @@ interactions:
       Accept:
       - '*/*'
       Accept-Encoding:
-      - gzip, deflate, br
+      - gzip, deflate
       Connection:
       - keep-alive
     method: GET
@@ -120914,12 +120906,10 @@ interactions:
         Online PC Ins Co Ltd.|S|OTC|324052|218552||1479|219.10||48.27|105500|2021-09-15\n20210915|ZZZOF|Zinc
         One Resources, Inc. Commo|S|OTC|10|12||796|1.00||-16.67|-2|2021-09-15\n"
     headers:
-      Accept-Ranges:
-      - bytes
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 823546f53ba58ad3-DEL
+      - 89c858c129c76063-YVR
       Connection:
       - keep-alive
       Content-Length:
@@ -120927,27 +120917,25 @@ interactions:
       Content-Type:
       - binary/octet-stream
       Date:
-      - Thu, 09 Nov 2023 10:12:25 GMT
-      ETag:
-      - '"0448b0afe8b8d2e09ac262f58412071f"'
-      Last-Modified:
-      - Thu, 27 Jul 2023 01:20:22 GMT
+      - Mon, 01 Jul 2024 18:09:22 GMT
       Server:
       - cloudflare
       Set-Cookie:
-      - __cf_bm=yo5rKiPTHbtg2oNkPuIC1dSiQg6Xu.BTRVkVw7fL8BA-1699524745-0-AXBzIQ84g1G/SH1lw2kHDVR4XLewAKkyKCr/tQ4mZU2OwQ4yYG11haYowdrXKxZpdwMEWTf4NfXxVs3HkzSubw8=;
-        path=/; expires=Thu, 09-Nov-23 10:42:25 GMT; domain=.cdn.finra.org; HttpOnly;
+      - __cf_bm=bCYB5BO4helLNjx7mkLkT9R.CLWvwT9iOxg7dQh0r0I-1719857362-1.0.1.1-OJvYdY9FKxPYSo3.yjnbCvQKO_RQD6fAabMP1PPtG0IAgipIkW3suoKOKKI_posqGwD.xhtJGjF8nRzjYGOEaw;
+        path=/; expires=Mon, 01-Jul-24 18:39:22 GMT; domain=.cdn.finra.org; HttpOnly;
         Secure; SameSite=None
-      Vary:
-      - Accept-Encoding
-      Via:
-      - 1.1 086c4491dfd784af394f7b2b6057bb70.cloudfront.net (CloudFront)
-      X-Amz-Cf-Id:
-      - WlGJ49I-x8Qt3TW9Pech4yi2aw63eD1sFk7-jUlITT7M-BVBjvazEQ==
-      X-Amz-Cf-Pop:
-      - DEL54-P7
-      X-Cache:
-      - RefreshHit from cloudfront
+      accept-ranges:
+      - bytes
+      etag:
+      - '"0448b0afe8b8d2e09ac262f58412071f"'
+      last-modified:
+      - Thu, 27 Jul 2023 01:20:22 GMT
+      via:
+      - 1.1 3401a77bb2c18effb6138333cd3b081e.cloudfront.net (CloudFront)
+      x-amz-cf-id:
+      - EdGG_WTQQ2rouNUd-Re9b7rhitI7HOF1Dj4myCaEpnsRSNjuKupPWQ==
+      x-amz-cf-pop:
+      - SEA900-P5
       x-amz-meta-x-amz-meta-category:
       - otcmarket
       x-amz-meta-x-amz-meta-date:
@@ -120956,6 +120944,8 @@ interactions:
       - biweekly
       x-amz-server-side-encryption:
       - AES256
+      x-cache:
+      - Miss from cloudfront
     status:
       code: 200
       message: OK
@@ -120965,7 +120955,7 @@ interactions:
       Accept:
       - '*/*'
       Accept-Encoding:
-      - gzip, deflate, br
+      - gzip, deflate
       Connection:
       - keep-alive
     method: GET
@@ -141069,12 +141059,10 @@ interactions:
         Online PC Ins Co Ltd.|S|OTC|284952|324052||0|999.99||-12.07|-39100|2021-09-30\n20210930|ZZZOF|Zinc
         One Resources, Inc. Commo|S|OTC|75|10||1057|1.00||650.00|65|2021-09-30\n"
     headers:
-      Accept-Ranges:
-      - bytes
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 823546fe0cbf1c49-DEL
+      - 89c858cb1c50844a-YVR
       Connection:
       - keep-alive
       Content-Length:
@@ -141082,27 +141070,25 @@ interactions:
       Content-Type:
       - binary/octet-stream
       Date:
-      - Thu, 09 Nov 2023 10:12:26 GMT
-      ETag:
-      - '"857abc320c710388c6559ca3cab3ae71"'
-      Last-Modified:
-      - Thu, 27 Jul 2023 01:20:17 GMT
+      - Mon, 01 Jul 2024 18:09:24 GMT
       Server:
       - cloudflare
       Set-Cookie:
-      - __cf_bm=6NvZlSKWVbUbaYrSNLriPyLR1AZIm_rmNwnsjzxHXTA-1699524746-0-AQAtCNNLdxbdJ5STkctNA8AagDhvi05PeLaytvS2FxenBcM7RjlbemHh2qea5bL7+z/8dAfkkYXtDg2bPwFlIy0=;
-        path=/; expires=Thu, 09-Nov-23 10:42:26 GMT; domain=.cdn.finra.org; HttpOnly;
+      - __cf_bm=i9GBllBsikIpoGAFG8S6bNfv.Zb1i5CPlp9utdRIdX0-1719857364-1.0.1.1-BmlOTEDyz8rvb7wmvM3lj2GrJuxTgTwKwrK_xfl4.Qy3cOOJWerclWOrQ7j_CzK2u.Yjgq2VvFCWQWOoWfMe0A;
+        path=/; expires=Mon, 01-Jul-24 18:39:24 GMT; domain=.cdn.finra.org; HttpOnly;
         Secure; SameSite=None
-      Vary:
-      - Accept-Encoding
-      Via:
-      - 1.1 451968957b779fc02047a8b11b9efcf8.cloudfront.net (CloudFront)
-      X-Amz-Cf-Id:
-      - z8Re3LHHihwDsM8ScTGf4sPVEmS-a5_Qub1ldubU2HlfsixxfEAO9w==
-      X-Amz-Cf-Pop:
-      - DEL54-P7
-      X-Cache:
-      - RefreshHit from cloudfront
+      accept-ranges:
+      - bytes
+      etag:
+      - '"857abc320c710388c6559ca3cab3ae71"'
+      last-modified:
+      - Thu, 27 Jul 2023 01:20:17 GMT
+      via:
+      - 1.1 1eb831a506072a14a859a537d9bab544.cloudfront.net (CloudFront)
+      x-amz-cf-id:
+      - aFj8elgT4vx7nBAtoHyoQ7-GzMKzRbmne6DgV74bT79MPIbv2nEayw==
+      x-amz-cf-pop:
+      - SEA900-P5
       x-amz-meta-x-amz-meta-category:
       - otcmarket
       x-amz-meta-x-amz-meta-date:
@@ -141111,6 +141097,8 @@ interactions:
       - biweekly
       x-amz-server-side-encryption:
       - AES256
+      x-cache:
+      - Miss from cloudfront
     status:
       code: 200
       message: OK
