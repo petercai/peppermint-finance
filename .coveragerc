@@ -5,3 +5,4 @@ omit =
     **/tests/**
     **/package/**
 source = .
+
