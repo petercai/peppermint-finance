@@ -36,9 +36,7 @@ def test_equity_price_historical_bns_with_yfinance():
     run: pytest tests\integration\test_equity_price_historical.py::test_equity_price_historical_bns_with_yfinance
     cc:  pytest --cov=openbb --cov-report=html tests\integration\test_equity_price_historical.py::test_equity_price_historical_bns_with_yfinance
     
-    set PYTHONPATH=%PYTHONPATH%;c:\workspace\github\finance\OpenBB\openbb_platform\openbb 
-    $env:PYTHONPATH = ".\openbb_platform"
-    $env:PYTHONPATH = ".\openbb_platform;.\openbb_platform\core"
+    $env:PYTHONPATH = ".\;.\core;.\extensions;.\providers;.\obbject_extensions\charting"
     pytest tests\integration\test_equity_price_historical.py::test_equity_price_historical_bns_with_yfinance
     pytest --import-mode=openbb tests\integration\test_equity_price_historical.py::test_equity_price_historical_bns_with_yfinance
     
