@@ -1,10 +1,9 @@
 """Test the Alpha Vantage fetchers."""
 
-from datetime import date, datetime
-
-import pytest
+from datetime import date, timedelta
 
 from openbb_core.app.service.user_service import UserService
+from openbb_yfinance.models.equity_historical import YFinanceEquityHistoricalFetcher, YFinanceEquityHistoricalData
 from openbb_yfinance.utils.helpers import yf_download
 
 test_credentials = UserService().default_user_settings.credentials.model_dump(
@@ -19,7 +18,7 @@ log_dir = "logs"
 os.makedirs(log_dir, exist_ok=True)
 
 # Configure logging with RotatingFileHandler
-log_file = os.path.join(log_dir, "yfinance.log")
+log_file = os.path.join(log_dir, "price.log")
 handler = RotatingFileHandler(
     log_file,
     maxBytes=1_000_000,  # 1MB
@@ -36,7 +35,7 @@ logger.setLevel(logging.INFO)
 logger.addHandler(handler)
 
 
-def test_yfinance_yf_download_bns_last_5_days(credentials=test_credentials):
+def test_yfinance_yf_download_bns(credentials=test_credentials):
     """
     $env:PYTHONPATH = ".\;.\core;.\extensions;.\providers;.\obbject_extensions\charting;providers\yfinance"
     pytest providers\yfinance\integration\test_yfinance_fetchers.py::test_yfinance_yf_download_bns_last_5_days
@@ -104,24 +103,9 @@ def test_yfinance_equity_historical_fetcher(credentials=test_credentials):
     print(result)
 
 
-
-def test_av_historical_eps_fetcher(credentials=test_credentials):
-    """Test the Alpha Vantage Historical Earnings fetcher."""
-    params = {"symbol": "AAPL", "period": "quarter"}
-
-    import yfinance as yf
-    ticker = yf.Ticker(params["symbol"])
-    data = ticker.earnings
-    assert data is not None
-    
     
 """Test the yfinance fetchers."""
 
-from datetime import date, timedelta
-
-import pytest
-from openbb_core.app.service.user_service import UserService
-from openbb_yfinance.models.equity_historical import YFinanceEquityHistoricalFetcher, YFinanceEquityHistoricalData
 
 
 def test_yfinance_equity_historical_fetcher2(credentials=test_credentials):
