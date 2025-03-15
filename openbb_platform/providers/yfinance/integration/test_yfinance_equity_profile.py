@@ -5,9 +5,10 @@ from datetime import date, timedelta
 import pytest
 
 from openbb_core.app.service.user_service import UserService
-from openbb_yfinance import YFinanceEquityProfileFetcher
+from openbb_yfinance import YFinanceEquityProfileFetcher, YFinanceEquityQuoteFetcher
 from openbb_yfinance.models.equity_historical import YFinanceEquityHistoricalFetcher, YFinanceEquityHistoricalData
 from openbb_yfinance.models.equity_profile import YFinanceEquityProfileData
+from openbb_yfinance.models.equity_quote import YFinanceEquityQuoteData
 from openbb_yfinance.utils.helpers import yf_download
 
 test_credentials = UserService().default_user_settings.credentials.model_dump(
@@ -61,11 +62,23 @@ async def test_yfinance_equity_profile_fetcher():
 
     logger.info(result)
 
+@pytest.mark.asyncio
+async def test_yfinance_equity_quote_fetcher():
+    """Test the yfinance Equity Quote fetcher for BNS.TO."""
+    params = {
+        "symbol": "BNS.TO",
+    }
 
+    fetcher = YFinanceEquityQuoteFetcher()
+    result = await fetcher.fetch_data(params, credentials=test_credentials)
 
+    assert result
+    assert isinstance(result, list)
+    assert len(result) > 0
 
-    
+    first_item = result[0]
 
+    assert isinstance(first_item, YFinanceEquityQuoteData)
+    assert first_item.symbol == "BNS.TO"
 
-
-
+    logger.info(result)
