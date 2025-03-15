@@ -42,7 +42,7 @@ logger.addHandler(handler)
 async def test_yfinance_equity_profile_fetcher():
     """Test the yfinance Equity Profile fetcher."""
     params = {
-        "symbol": "BNS.TO",
+        "symbol": "BNS.TO, RY.TO",
     }
 
     fetcher = YFinanceEquityProfileFetcher()
