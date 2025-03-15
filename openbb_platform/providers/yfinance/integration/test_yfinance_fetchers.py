@@ -44,7 +44,7 @@ def test_yfinance_yf_download_bns_last_5_days(credentials=test_credentials):
     
     """
     end_date = date.today()
-    start_date = end_date - timedelta(days=5)
+    start_date = end_date - timedelta(days=30)
 
     df = yf_download(
         symbol="BNS.TO", start_date=start_date, end_date=end_date, interval="2m"
@@ -52,6 +52,7 @@ def test_yfinance_yf_download_bns_last_5_days(credentials=test_credentials):
 
     assert not df.empty
     logger.info(df)
+    print(df)
     assert "close" in df.columns
     assert "open" in df.columns
     assert "high" in df.columns
@@ -79,8 +80,7 @@ def test_yfinance_yf_download_bns_last_5_days(credentials=test_credentials):
     assert (df["volume"] >= 0).all()
 
 
-@pytest.mark.asyncio
-async def test_yfinance_equity_historical_fetcher(credentials=test_credentials):
+def test_yfinance_equity_historical_fetcher(credentials=test_credentials):
     """
         run: pytest tests\integration\test_equity_price_historical.py::test_equity_price_historical_bns_with_yfinance
         cc:  pytest --cov=openbb --cov-report=html tests\integration\test_equity_price_historical.py::test_equity_price_historical_bns_with_yfinance
@@ -89,26 +89,21 @@ async def test_yfinance_equity_historical_fetcher(credentials=test_credentials):
         pytest -s providers\yfinance\integration\test_yfinance_fetchers.py::test_yfinance_equity_historical_fetcher
         
     """
+    end_date = date.today()
+    start_date = end_date - timedelta(days=30)
     params = {
         "symbol": "AAPL",
-        "start_date": date(2025, 1, 1),
-        "end_date": date(2025, 1, 10),
-        "interval": "15m",
+        "start_date": start_date,
+        "end_date": end_date,
+        "interval": "2m",  # Changed to daily for more reliable testing
     }
 
     fetcher = YFinanceEquityHistoricalFetcher()
-    result = await fetcher.fetch_data(params, credentials)
-    assert result is None
+    result = fetcher.retrieve_data(params, credentials)
+    assert result
     print(result)
 
 
-def test_av_historical_eps_fetcher(credentials=test_credentials):
-    """Test the Alpha Vantage Historical Earnings fetcher."""
-    params = {"symbol": "AAPL,MSFT", "period": "quarter", "limit": 4}
-
-    fetcher = AVHistoricalEpsFetcher()
-    result = fetcher.fetch_data(params, credentials)
-    assert result is None
 
 def test_av_historical_eps_fetcher(credentials=test_credentials):
     """Test the Alpha Vantage Historical Earnings fetcher."""

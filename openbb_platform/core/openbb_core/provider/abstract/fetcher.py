@@ -87,6 +87,18 @@ class Fetcher(Generic[Q, R]):
         )
         return cls.transform_data(query=query, data=data, **kwargs)
 
+    @classmethod
+    def retrieve_data(
+        cls,
+        params: Dict[str, Any],
+        credentials: Optional[Dict[str, str]] = None,
+        **kwargs,
+    ) -> Union[R, AnnotatedResult[R]]:
+        """Retrieves data from a provider data from a provider."""
+        query = cls.transform_query(params=params)
+        data = cls.extract_data(query=query, credentials=credentials, **kwargs)
+        return cls.transform_data(query=query, data=data, **kwargs)
+
     @classproperty
     def query_params_type(self) -> Q:
         """Get the type of query."""
