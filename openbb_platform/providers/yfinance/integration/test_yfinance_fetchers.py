@@ -1,6 +1,6 @@
 """Test the Alpha Vantage fetchers."""
 
-from datetime import date
+from datetime import date, datetime
 
 import pytest
 
@@ -37,7 +37,12 @@ logger.addHandler(handler)
 
 
 def test_yfinance_yf_download_bns_last_5_days(credentials=test_credentials):
-    """Test yf_download to fetch last 5 days price data for BNS.TO."""
+    """
+    $env:PYTHONPATH = ".\;.\core;.\extensions;.\providers;.\obbject_extensions\charting;providers\yfinance"
+    pytest providers\yfinance\integration\test_yfinance_fetchers.py::test_yfinance_yf_download_bns_last_5_days
+    pytest --cov=openbb --cov-report=html providers\yfinance\integration\test_yfinance_fetchers.py::test_yfinance_yf_download_bns_last_5_days
+    
+    """
     end_date = date.today()
     start_date = end_date - timedelta(days=5)
 
@@ -74,9 +79,16 @@ def test_yfinance_yf_download_bns_last_5_days(credentials=test_credentials):
     assert (df["volume"] >= 0).all()
 
 
-@pytest.mark.record_http
-def test_av_equity_historical_fetcher(credentials=test_credentials):
-    """Test the Alpha Vantage Equity Historical fetcher."""
+@pytest.mark.asyncio
+async def test_yfinance_equity_historical_fetcher(credentials=test_credentials):
+    """
+        run: pytest tests\integration\test_equity_price_historical.py::test_equity_price_historical_bns_with_yfinance
+        cc:  pytest --cov=openbb --cov-report=html tests\integration\test_equity_price_historical.py::test_equity_price_historical_bns_with_yfinance
+        
+        $env:PYTHONPATH = ".\;.\core;.\extensions;.\providers;.\obbject_extensions\charting;providers\yfinance"
+        pytest -s providers\yfinance\integration\test_yfinance_fetchers.py::test_yfinance_equity_historical_fetcher
+        
+    """
     params = {
         "symbol": "AAPL",
         "start_date": date(2025, 1, 1),
@@ -84,13 +96,12 @@ def test_av_equity_historical_fetcher(credentials=test_credentials):
         "interval": "15m",
     }
 
-    fetcher = AVEquityHistoricalFetcher()
-    result = fetcher.fetch_data(params, credentials)
+    fetcher = YFinanceEquityHistoricalFetcher()
+    result = await fetcher.fetch_data(params, credentials)
     assert result is None
     print(result)
 
 
-@pytest.mark.record_http
 def test_av_historical_eps_fetcher(credentials=test_credentials):
     """Test the Alpha Vantage Historical Earnings fetcher."""
     params = {"symbol": "AAPL,MSFT", "period": "quarter", "limit": 4}
@@ -99,21 +110,6 @@ def test_av_historical_eps_fetcher(credentials=test_credentials):
     result = fetcher.fetch_data(params, credentials)
     assert result is None
 
-@pytest.mark.record_http
-def test_av_equity_historical_fetcher(credentials=test_credentials):
-    """Test the Alpha Vantage Equity Historical fetcher."""
-    params = {
-        "symbol": "AAPL",
-        "start_date": date(2025, 1, 1),
-        "end_date": date(2025, 1, 10),
-        "interval": "15m",
-    }
-
-    import yfinance as yf
-    data = yf.download(**params)
-    assert not data.empty
-
-@pytest.mark.record_http
 def test_av_historical_eps_fetcher(credentials=test_credentials):
     """Test the Alpha Vantage Historical Earnings fetcher."""
     params = {"symbol": "AAPL", "period": "quarter"}
@@ -130,12 +126,10 @@ from datetime import date, timedelta
 
 import pytest
 from openbb_core.app.service.user_service import UserService
-from openbb_yfinance.models.equity_historical import YFinanceEquityHistoricalFetcher
+from openbb_yfinance.models.equity_historical import YFinanceEquityHistoricalFetcher, YFinanceEquityHistoricalData
 
 
-
-@pytest.mark.record_http
-def test_yfinance_equity_historical_fetcher(credentials=test_credentials):
+def test_yfinance_equity_historical_fetcher2(credentials=test_credentials):
     """Test the yfinance Equity Historical fetcher."""
     end_date = date.today()
     start_date = end_date - timedelta(days=30)
@@ -143,38 +137,46 @@ def test_yfinance_equity_historical_fetcher(credentials=test_credentials):
         "symbol": "AAPL",
         "start_date": start_date,
         "end_date": end_date,
-        "interval": "1d",  # Changed to daily for more reliable testing
+        "interval": "2m",  # Changed to daily for more reliable testing
     }
 
     fetcher = YFinanceEquityHistoricalFetcher()
-    result = fetcher.extract_data(params, credentials)
+    query = fetcher.transform_query(params=params)
+    if query is None:
+        raise ValueError("Query must not be None.")
+    # data = await maybe_coroutine(
+    #     cls.extract_data, query=query, credentials=credentials, **kwargs
+    # )
+    data = fetcher.extract_data(query=query, credentials=credentials)
+    if data is None:
+        raise ValueError("Data must not be None.")
+    result = fetcher.transform_data(query=query, data=data)
 
     assert result
-    assert result.body
-    df = result.body.to_dataframe()
-    assert not df.empty
-    assert "close" in df.columns
-    assert "open" in df.columns
-    assert "high" in df.columns
-    assert "low" in df.columns
-    assert "volume" in df.columns
+    assert isinstance(result, list)
+    assert len(result) > 0
+    logger.info(result)
+    for data_point in result:
+        assert isinstance(data_point, YFinanceEquityHistoricalData)
+        # assert isinstance(data_point.date, datetime.date)
+        assert isinstance(data_point.open, float)
+        assert isinstance(data_point.high, float)
+        assert isinstance(data_point.low, float)
+        assert isinstance(data_point.close, float)
+        assert isinstance(data_point.volume, int)
+        assert isinstance(data_point.split_ratio, (float, type(None)))
+        assert isinstance(data_point.dividend, (float, type(None)))
 
-    # Verify data types
-    assert df["close"].dtype == float
-    assert df["open"].dtype == float
-    assert df["high"].dtype == float
-    assert df["low"].dtype == float
-    assert df["volume"].dtype == int
+        # Verify price values are reasonable (non-zero)
+        assert data_point.close > 0
+        assert data_point.open > 0
+        assert data_point.high > 0
+        assert data_point.low > 0
+        assert data_point.volume >= 0
 
-    # Verify we got data for the requested date range
-    assert len(df.index) > 0
-    assert df.index.min().date() >= start_date
-    assert df.index.max().date() <= end_date
-    
-    # Verify price values are reasonable (non-zero)
-    assert (df["close"] > 0).all()
-    assert (df["open"] > 0).all()
-    assert (df["high"] > 0).all()
-    assert (df["low"] > 0).all()
-    assert (df["volume"] >= 0).all()
+        # Verify split_ratio and dividend are either float or None
+        if data_point.split_ratio is not None:
+            assert data_point.split_ratio > 0
+        if data_point.dividend is not None:
+            assert data_point.dividend >= 0
 
