@@ -1,0 +1,24 @@
+OpenBB/
+├── pyproject.toml
+├── peppermint-stock/
+│   └── __init__.py
+└── openbb_platform/
+    └── openbb/
+        └── __init__.py
+
+
+Key changes made:
+
+Removed package-mode = false since we want to install the project
+Changed peppermint-stock to peppermint_stock in packages (Python packages should use underscores)
+Make sure each included package has an __init__.py file
+
+To install:
+
+poetry install
+
+If you still get errors, you can try:
+
+poetry install --no-root
+
+This will install dependencies without installing the root project.
