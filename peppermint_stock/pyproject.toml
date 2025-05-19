@@ -1,3 +1,5 @@
+package-mode = false
+
 [project]
 name = "peppermint-stock"
 version = "0.1.0"
@@ -7,9 +9,7 @@ authors = [
 ]
 # readme = "README.md"
 requires-python = ">=3.12"
-package-mode = false
 dependencies = [
-    "mysql (>=0.0.3)",
     "numpy (==2.2.4)",
     "pandas (==2.2.3)",
     "py-mini-racer (==0.6.0)",
@@ -28,6 +28,8 @@ dependencies = [
     "python-dateutil (==2.9.0.post0)"
 ]
 
+[tool.poetry.dependencies]
+ta-lib = { path = "./pkg/ta_lib-0.6.3-cp312-cp312-win_amd64.whl" }
 
 
 [build-system]
