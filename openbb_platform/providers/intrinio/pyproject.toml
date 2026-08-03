@@ -1,20 +1,27 @@
-[tool.poetry]
+[project]
 name = "openbb-intrinio"
 version = "1.4.1"
 description = "Intrinio extension for OpenBB"
-authors = ["OpenBB Team <hello@openbb.co>"]
-license = "AGPL-3.0-only"
+authors = [
+    {name = "OpenBB Team", email = "hello@openbb.co"},
+]
+license = {text = "AGPL-3.0-only"}
 readme = "README.md"
-packages = [{ include = "openbb_intrinio" }]
+requires-python = ">=3.9.21,<3.13"
+dependencies = [
+    "requests-cache>=1.1.0,<2.0.0",
+    "openbb-core",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.9.21,<3.13"
-requests-cache = "^1.1.0"
-openbb-core = "^1.4.6"
+[project.entry-points.openbb_provider_extension]
+intrinio = "openbb_intrinio:intrinio_provider"
+
+[tool.uv.sources]
+openbb-core = { path = "../../core", editable = true }
+
+[tool.hatch.build.targets.wheel]
+packages = ["openbb_intrinio"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.plugins."openbb_provider_extension"]
-intrinio = "openbb_intrinio:intrinio_provider"
+requires = ["hatchling"]
+build-backend = "hatchling.build"

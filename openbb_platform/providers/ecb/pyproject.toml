@@ -1,20 +1,27 @@
-[tool.poetry]
+[project]
 name = "openbb-ecb"
 version = "1.4.2"
 description = "ECB extension for OpenBB"
-authors = ["OpenBB Team <hello@openbb.co>"]
-license = "AGPL-3.0-only"
+authors = [
+    {name = "OpenBB Team", email = "hello@openbb.co"},
+]
+license = {text = "AGPL-3.0-only"}
 readme = "README.md"
-packages = [{ include = "openbb_ecb" }]
+requires-python = ">=3.9.21,<3.13"
+dependencies = [
+    "openbb-core",
+    "xmltodict>=0.13.0,<0.14.0",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.9.21,<3.13"
-openbb-core = "^1.4.6"
-xmltodict = "^0.13.0"
+[project.entry-points.openbb_provider_extension]
+ecb = "openbb_ecb:ecb_provider"
+
+[tool.uv.sources]
+openbb-core = { path = "../../core", editable = true }
+
+[tool.hatch.build.targets.wheel]
+packages = ["openbb_ecb"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.plugins."openbb_provider_extension"]
-ecb = "openbb_ecb:ecb_provider"
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,20 +1,27 @@
-[tool.poetry]
+[project]
 name = "openbb-deribit"
 version = "1.0.1"
 description = "Deribit is a crypto-native derivatives exchange."
-authors = ["OpenBB Team <hello@openbb.co>"]
-license = "AGPL-3.0-only"
+authors = [
+    {name = "OpenBB Team", email = "hello@openbb.co"},
+]
+license = {text = "AGPL-3.0-only"}
 readme = "README.md"
-packages = [{ include = "openbb_deribit" }]
+requires-python = ">=3.9.21,<3.13"
+dependencies = [
+    "openbb-core",
+    "async-lru>=2.0.4,<3.0.0",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.9.21,<3.13"
-openbb-core = "^1.4.6"
-async-lru = "^2.0.4"
+[project.entry-points.openbb_provider_extension]
+deribit = "openbb_deribit:deribit_provider"
+
+[tool.uv.sources]
+openbb-core = { path = "../../core", editable = true }
+
+[tool.hatch.build.targets.wheel]
+packages = ["openbb_deribit"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.plugins."openbb_provider_extension"]
-deribit = "openbb_deribit:deribit_provider"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
