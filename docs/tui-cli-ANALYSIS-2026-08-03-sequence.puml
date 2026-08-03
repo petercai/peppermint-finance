@@ -1,0 +1,75 @@
+@startuml tui-cli-sequence
+' Note: All file links use workspace-relative paths for cross-platform compatibility.
+' Hyperlinks are kept in notes (not inline in message labels) for VS Code PlantUML preview compatibility.
+hide footbox
+<style>
+sequenceDiagram {
+  ParticipantPadding 20
+  BoxPadding 10
+}
+</style>
+' autoactivate on
+
+actor User
+participant "t_controller:\nCLIController" as CLI
+participant "prompt_session:\nPromptSession" as Prompt
+participant "EquityController\n(dynamic)" as Equity
+participant "EquityPriceController\n(dynamic sub-menu)" as EquityPrice
+participant "translator:\nArgparseTranslator" as Translator
+participant "obb.equity.price\n.historical()" as Router
+participant "registry:\nRegistry" as Registry
+participant "console:\nConsole" as Console
+
+User -> Prompt : type "equity"
+note right
+  run_cli() reads the line via
+  PromptSession.prompt(), completed
+  by the root NestedCompleter.
+end note
+Prompt --> CLI : an_input = "equity"
+
+CLI -> CLI : switch("equity")
+note right
+  BaseController.switch()
+  dispatches to call_equity(),
+  which was dynamically bound
+  by _generate_platform_commands().
+end note
+CLI -> Equity : load_class() -> menu()
+note right
+  EquityController was created at
+  startup by PlatformControllerFactory
+  wrapping ArgparseClassProcessor
+  introspection of obb.equity.
+end note
+
+Equity -> Prompt : prompt("/equity/ $")
+Prompt --> Equity : an_input = "price"
+Equity -> Equity : switch("price")
+Equity -> EquityPrice : load_class() -> menu()
+
+EquityPrice -> Prompt : prompt("/equity/price/ $")
+Prompt --> EquityPrice : an_input = "historical --symbol AAPL"
+EquityPrice -> EquityPrice : switch(...)
+EquityPrice -> EquityPrice : parse_known_args_and_warn(parser, other_args)
+note right
+  parser is translator.parser, an
+  argparse.ArgumentParser generated
+  from the function signature of
+  obb.equity.price.historical.
+end note
+
+EquityPrice -> Translator : execute_func(ns_parser)
+Translator -> Router : func(**kwargs)
+note right
+  Original Platform Python SDK call,
+  unaware that a CLI wraps it.
+end note
+Router --> Translator : OBBject(results=...)
+Translator --> EquityPrice : OBBject
+
+EquityPrice -> Registry : register(obbject)
+EquityPrice -> Console : print_rich_table(df, title)
+Console --> User : Rich-rendered table / panel
+
+@enduml

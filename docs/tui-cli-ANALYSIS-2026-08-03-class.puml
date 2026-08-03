@@ -1,0 +1,91 @@
+@startuml tui-cli-class
+' Note: All file links use workspace-relative paths for cross-platform compatibility.
+' Format: [[relative/path/to/file.py:line]] or [[relative/path/to/file.py:line Label]]
+top to bottom direction
+
+class "Session (singleton)" as Session [[cli/openbb_cli/session.py:36]] {
+  + [[cli/openbb_cli/session.py:82 prompt_session]]
+  + [[cli/openbb_cli/session.py:71 console]]
+  + [[cli/openbb_cli/session.py:66 settings]]
+  + [[cli/openbb_cli/session.py:76 obbject_registry]]
+}
+
+class "Settings" as Settings [[cli/openbb_cli/models/settings.py:22]] {
+  + USE_PROMPT_TOOLKIT: bool
+  + ENABLE_RICH_PANEL: bool
+  + TOOLBAR_HINT: bool
+  + RICH_STYLE: str
+}
+
+class "Console" as Console [[cli/openbb_cli/config/console.py:16]] {
+  + [[cli/openbb_cli/config/console.py:60 print()]]
+  + [[cli/openbb_cli/config/console.py:90 input()]]
+}
+
+class "Style" as Style [[cli/openbb_cli/config/style.py:15]] {
+  + [[cli/openbb_cli/config/style.py:47 apply()]]
+}
+
+class "Registry (OBBject stack)" as Registry [[cli/openbb_cli/argparse_translator/obbject_registry.py:9]] {
+  + [[cli/openbb_cli/argparse_translator/obbject_registry.py:21 register()]]
+  + [[cli/openbb_cli/argparse_translator/obbject_registry.py:32 get()]]
+}
+
+class "NestedCompleter" as NestedCompleter [[cli/openbb_cli/config/completer.py:119]] {
+  + [[cli/openbb_cli/config/completer.py:146 from_nested_dict()]]
+  + [[cli/openbb_cli/config/completer.py:193 get_completions()]]
+}
+
+class "BaseController" as BaseController [[cli/openbb_cli/controllers/base_controller.py:52]] {
+  + parser: argparse.ArgumentParser
+  + completer: NestedCompleter
+  + [[cli/openbb_cli/controllers/base_controller.py:919 menu()]]
+  + [[cli/openbb_cli/controllers/base_controller.py:197 switch()]]
+  + [[cli/openbb_cli/controllers/base_controller.py:708 parse_simple_args()]]
+  + [[cli/openbb_cli/controllers/base_controller.py:757 parse_known_args_and_warn()]]
+}
+
+class "CLIController (root menu '/')" as CLIController [[cli/openbb_cli/controllers/cli_controller.py:65]] {
+  + [[cli/openbb_cli/controllers/cli_controller.py:104 _generate_platform_commands()]]
+  + [[cli/openbb_cli/controllers/cli_controller.py:326 call_exe()]]
+}
+
+class "PlatformController (dynamic per-router menu)" as PlatformController [[cli/openbb_cli/controllers/base_platform_controller.py:32]] {
+  + translators: dict
+  + [[cli/openbb_cli/controllers/base_platform_controller.py:143 _generate_commands()]]
+  + [[cli/openbb_cli/controllers/base_platform_controller.py:151 _generate_command_call()]]
+  + [[cli/openbb_cli/controllers/base_platform_controller.py:106 _generate_sub_controllers()]]
+}
+
+class "PlatformControllerFactory" as PlatformControllerFactory [[cli/openbb_cli/controllers/platform_controller_factory.py:11]] {
+  + [[cli/openbb_cli/controllers/platform_controller_factory.py:29 create()]]
+}
+
+class "ArgparseClassProcessor" as ArgparseClassProcessor [[cli/openbb_cli/argparse_translator/argparse_class_processor.py:15]] {
+  + translators: Dict[str, ArgparseTranslator]
+  + [[cli/openbb_cli/argparse_translator/argparse_class_processor.py:84 _process_class()]]
+}
+
+class "ArgparseTranslator" as ArgparseTranslator [[cli/openbb_cli/argparse_translator/argparse_translator.py:43]] {
+  + func: Callable
+  + parser: argparse.ArgumentParser
+  + [[cli/openbb_cli/argparse_translator/argparse_translator.py:320 _generate_argparse_arguments()]]
+  + [[cli/openbb_cli/argparse_translator/argparse_translator.py:433 execute_func()]]
+}
+
+BaseController <|-- CLIController
+BaseController <|-- PlatformController
+
+CLIController --> PlatformControllerFactory : builds one dynamic subclass per obb router [[cli/openbb_cli/controllers/cli_controller.py:125]]
+PlatformControllerFactory --> ArgparseClassProcessor : introspects router methods [[cli/openbb_cli/controllers/platform_controller_factory.py:17]]
+PlatformController --> ArgparseClassProcessor : introspects sub-router methods [[cli/openbb_cli/controllers/base_platform_controller.py:53]]
+ArgparseClassProcessor "1" --> "*" ArgparseTranslator : one per Platform function
+
+BaseController --> Session : reads shared state [[cli/openbb_cli/controllers/base_controller.py:39]]
+Session --> Settings
+Session --> Console
+Session --> Style
+Session --> Registry
+BaseController --> NestedCompleter : drives Tab-completion [[cli/openbb_cli/controllers/base_controller.py:125]]
+PlatformController --> Registry : stores/reads OBBject results [[cli/openbb_cli/controllers/base_platform_controller.py:73]]
+@enduml
